@@ -1,33 +1,30 @@
-const apiEP = "https://api.dictionaryapi.dev/api/v2/entries/en";
+const apiEP = "https://favicongrabber.com/api/grab/all";
 let meaningList = [];
 const fetchUser = async (url) => {
   try {
     const res = await fetch(url);
     const data = await res.json();
     meaningList = data;
+    console.log("Api here");
+    console.log(meaningList);
   } catch (error) {
     console.log(error);
   }
 };
-
-document.getElementById("cl").addEventListener("click", (e) => {
-  e.preventDefault();
-  var word = document.getElementById("word").value;
-  const url = `${apiEP}/${word}`;
-  fetchUser(url);
-  display(meaningList);
-});
-let c = 1;
+fetchUser(apiEP);
+// document.getElementById("cl").addEventListener("click", (e) => {
+//   e.preventDefault();
+// //   var word = document.getElementById("word").value;
+//   //   const url = `${apiEP}/${word}`;
+//   const url = apiEP;
+//   fetchUser(url);
+//   display(meaningList);
+// });
 const display = (list) => {
-  console.log(c++);
-  list.map((item) => {
-    console.log("i will return");
-    console.log(item.word);
-    console.log(item.meanings[0].partOfSpeech);
-  });
+  console.log(list);
   var str = "";
   str += `<div>
-  <h3>Word</h3>
+  <h3></h3>
   <h5
     onclick="playsound('https://api.dictionaryapi.dev/media/pronunciations/en/hello-au.mp3')"
   >
