@@ -1,51 +1,35 @@
-const apiEP = "https://favicongrabber.com/api/grab/all";
+const apiEP = "https://opentdb.com/api.php?amount=50";
 let meaningList = [];
+let count = 1;
 const fetchUser = async (url) => {
   try {
     const res = await fetch(url);
     const data = await res.json();
-    meaningList = data;
+    meaningList = data.results;
     console.log("Api here");
-    console.log(meaningList);
+    display(meaningList);
   } catch (error) {
     console.log(error);
   }
 };
-fetchUser(apiEP);
-// document.getElementById("cl").addEventListener("click", (e) => {
-//   e.preventDefault();
-// //   var word = document.getElementById("word").value;
-//   //   const url = `${apiEP}/${word}`;
-//   const url = apiEP;
-//   fetchUser(url);
-//   display(meaningList);
-// });
+
 const display = (list) => {
-  console.log(list);
   var str = "";
-  str += `<div>
-  <h3></h3>
-  <h5
-    onclick="playsound('https://api.dictionaryapi.dev/media/pronunciations/en/hello-au.mp3')"
-  >
-    Audio
-  </h5>
-  <ul>
-    <li>meaning1</li>
-    <ul>
-      <li>partofSpeech</li>
-      <li>definitions</li>
-    </ul>
-    <li>meaning2</li>
-    <ul>
-      <li>partofSpeech</li>
-      <li>definitions</li>
-    </ul>
-  </ul>
-</div>`;
+  console.log(meaningList);
+  list.map((item) => {
+    var a = item.correct_answer;
+    str += `Question ${count++}:${item.type}<h1>${item.question}</h1>
+    <div class="d-flex justify-content-between"><span>${
+      item.category
+    }</span><span>${item.difficulty}</span></div>
+    <button onclick="correct_answer(${item.type})">Show Answer</button>
+    <p id="show_answer"></p>
+    <p>${a}</p>
+    <hr>`;
+  });
   document.getElementById("show").innerHTML = str;
 };
-const playsound = (url) => {
-  const audio = new Audio(url);
-  audio.play();
+const correct_answer = (type) => {
+  document.getElementById("show_answer").innerHTML = type;
 };
+fetchUser(apiEP);
