@@ -22,7 +22,9 @@ const display = (list) => {
     <div class="d-flex justify-content-between"><span>${
       item.category
     }</span><span>${item.difficulty}</span></div>
-    <button onclick="correct_answer(${item.type})">Show Answer</button>
+    <button onclick="${correct_answer(
+      item.correct_answer
+    )}">Show Answer</button>
     <p id="show_answer"></p>
     <p>${a}</p>
     <hr>`;
@@ -30,6 +32,8 @@ const display = (list) => {
   document.getElementById("show").innerHTML = str;
 };
 const correct_answer = (type) => {
+  console.log(type);
+
   document.getElementById("show_answer").innerHTML = type;
 };
 fetchUser(apiEP);
