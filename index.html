@@ -15,12 +15,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API</title>
+    <style>
+      .wrapper {
+        height: 100vh;
+        background: linear-gradient(#3c97c3, #c3683c);
+      }
+    </style>
   </head>
   <body>
-    <form>
-      <input type="text" id="word" placeholder="search here" />
-      <button id="cl">enter..</button>
-    </form>
+    <div class="wrapper d-flex justify-content-center align-items-center">
+      <div class="d-flex flex-column align-items-center">
+        <h1 class="text-light">Welcome to the quiz</h1>
+        <form id="formq" class="d-flex flex-column">
+          <div class="input-group mt-3">
+            <label
+              class="input-group-text text-bg-dark bg-opacity-50"
+              for="type"
+            >
+              Choose category</label
+            >
+            <select
+              name="type"
+              id="type"
+              class="form-select bg-opacity-50 text-bg-dark"
+            >
+              <option value="a">General Knowledge</option>
+              <option value="b">Entertainement</option>
+              <option value="c">Science & Nature</option>
+              <option value="d">Mythology</option>
+              <option value="e">History</option>
+              <option value="f">Animals</option>
+            </select>
+          </div>
+          <button class="btn btn-dark opacity-75 mt-4" type="submit">
+            Take me to quiz..
+          </button>
+        </form>
+      </div>
+    </div>
     <hr />
     <p id="show"></p>
     <script src="script.js"></script>

@@ -1,4 +1,4 @@
-const apiEP = "https://opentdb.com/api.php?amount=50";
+const apiEP = "https://opentdb.com/api.php?amount=10";
 let meaningList = [];
 let count = 1;
 const fetchUser = async (url) => {
@@ -12,28 +12,68 @@ const fetchUser = async (url) => {
     console.log(error);
   }
 };
-
+let url = "";
+document.getElementById("formq").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const category = document.getElementById("type").value;
+  if (category === "a") {
+    url = `${apiEP}&category=9`;
+    fetchUser(url);
+  } else if (category === "b") {
+    url = `${apiEP}&category=11`;
+    fetchUser(url);
+  } else if (category === "c") {
+    url = `${apiEP}&category=17`;
+    fetchUser(url);
+  } else if (category === "d") {
+    url = `${apiEP}&category=20`;
+    fetchUser(url);
+  } else if (category === "e") {
+    url = `${apiEP}&category=23`;
+    fetchUser(url);
+  } else if (category === "f") {
+    url = `${apiEP}&category=27`;
+    fetchUser(url);
+  }
+});
 const display = (list) => {
   var str = "";
-  console.log(meaningList);
   list.map((item) => {
-    var a = item.correct_answer;
-    str += `Question ${count++}:${item.type}<h1>${item.question}</h1>
-    <div class="d-flex justify-content-between"><span>${
-      item.category
-    }</span><span>${item.difficulty}</span></div>
-    <button onclick="${correct_answer(
-      item.correct_answer
-    )}">Show Answer</button>
-    <p id="show_answer"></p>
-    <p>${a}</p>
-    <hr>`;
+    if (item.type === "boolean") {
+      str += `<p style="font-weight:bold"><span>Question: </span>${item.question}</p>
+      <div style="font-size:10px" class="d-flex justify-content-evenly" ><p>${item.difficulty}</p>
+      <p >${item.type}</p></div>
+      <p> Choose correct answer:</p>
+      <input type="radio" id="ans1" name="ans" value="t">
+      <label for="ans1">True</label><br> 
+      <input type="radio" id="ans2" name="ans" value="f">
+      <label for="ans2">False</label><br> 
+      <hr/> `;
+    } else {
+      var arr = item.incorrect_answers;
+      var arr = [...arr, item.correct_answer];
+      var len = arr.length;
+      for (let i = len - 1; i > 0; i--) {
+        let ranpos = Math.floor(Math.random() * (i + 1));
+        var temp = arr[i];
+        arr[i] = arr[ranpos];
+        arr[ranpos] = temp;
+      }
+      str += `<p style="font-weight:bold"><span>Question: </span>${item.question}</p>
+      <div style="font-size:10px" class="d-flex justify-content-evenly" ><p>${item.difficulty}</p>
+      <p >${item.type}</p></div>
+      <p> Choose correct answer:</p>
+      <input type="radio" id="ans1" name="ans" value="">
+      <label for="ans1">${arr[0]}</label><br> 
+      <input type="radio" id="ans2" name="ans" value="">
+      <label for="ans2">${arr[1]}</label><br>  
+      <input type="radio" id="ans3" name="ans" value="">
+      <label for="ans3">${arr[2]}</label><br>
+      <input type="radio" id="ans4" name="ans" value="">
+      <label for="ans4">${arr[3]}</label><br>
+      <hr/>`;
+    }
   });
   document.getElementById("show").innerHTML = str;
+  console.log(list);
 };
-const correct_answer = (type) => {
-  console.log(type);
-
-  document.getElementById("show_answer").innerHTML = type;
-};
-fetchUser(apiEP);
