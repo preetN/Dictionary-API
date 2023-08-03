@@ -38,7 +38,8 @@ document.getElementById("formq").addEventListener("submit", (e) => {
 });
 const display = (list) => {
   var str = "";
-  list.map((item) => {
+  list.map((item, index) => {
+    console.log(index);
     if (item.type === "boolean") {
       str += `<p style="font-weight:bold"><span>Question: </span>${item.question}</p>
       <div style="font-size:10px" class="d-flex justify-content-evenly" ><p>${item.difficulty}</p>
@@ -48,6 +49,8 @@ const display = (list) => {
       <label for="ans1">True</label><br> 
       <input type="radio" id="ans2" name="ans" value="f">
       <label for="ans2">False</label><br> 
+      <p name="check"></p>
+      <button class="btn btn-dark" onclick="show_Ans('${item.correct_answer}', ${index})">Show answer</button>
       <hr/> `;
     } else {
       var arr = item.incorrect_answers;
@@ -71,9 +74,18 @@ const display = (list) => {
       <label for="ans3">${arr[2]}</label><br>
       <input type="radio" id="ans4" name="ans" value="">
       <label for="ans4">${arr[3]}</label><br>
+      <p name="check"></p>
+      <button class="btn btn-dark" onclick='show_Ans("${item.correct_answer}", ${index})'>Show answer</button>
       <hr/>`;
+      console.log(str);
     }
   });
   document.getElementById("show").innerHTML = str;
   console.log(list);
+};
+const show_Ans = (a, index) => {
+  console.log("Show ans a", a);
+  console.log("Show ans index", index);
+  console.log(document.getElementsByName("check")[index]);
+  document.getElementsByName("check")[index].innerHTML = a;
 };
