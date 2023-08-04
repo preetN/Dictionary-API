@@ -20,10 +20,16 @@
         height: 100vh;
         background: linear-gradient(#3c97c3, #c3683c);
       }
+      body {
+        background: linear-gradient(#3c97c3, #c3683c);
+      }
     </style>
   </head>
   <body>
-    <div class="wrapper d-flex justify-content-center align-items-center">
+    <div
+      id="main-cont"
+      class="wrapper d-flex justify-content-center align-items-center"
+    >
       <div class="d-flex flex-column align-items-center">
         <h1 class="text-light">Welcome to the quiz</h1>
         <form id="formq" class="d-flex flex-column">
@@ -54,7 +60,9 @@
       </div>
     </div>
     <hr />
-    <p id="show"></p>
+    <div class="container bg-light rounded shadow">
+      <p id="show"></p>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>

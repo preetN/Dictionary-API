@@ -38,6 +38,8 @@ document.getElementById("formq").addEventListener("submit", (e) => {
 });
 const display = (list) => {
   var str = "";
+  const form = document.getElementById("main-cont");
+  form.style.visibility = "hidden";
   list.map((item, index) => {
     if (item.type === "boolean") {
       str += `<p style="font-weight:bold"><span>Question ${index + 1}: </span>${
@@ -98,3 +100,5 @@ const show_Ans = (a, index) => {
 const hide_Ans = (index) => {
   document.getElementsByName("check")[index].style.display = "none";
 };
+
+document.addEventListener("DOMContentLoaded", function () {});
