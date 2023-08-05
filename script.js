@@ -50,14 +50,14 @@ const display = (list) => {
       }</p>
       <p >${item.type}</p></div>
       <p> Choose correct answer:</p>
-      <input type="radio" id="ans1" name="ans" value="t">
-      <label for="ans1">True</label><br> 
-      <input type="radio" id="ans2" name="ans" value="f">
-      <label for="ans2">False</label><br> 
+      <input type="radio" id="ans1${index}" name="ans${index}" value="t">
+      <label for="ans1${index}">True</label><br> 
+      <input type="radio" id="ans2${index}" name="ans${index}" value="f">
+      <label for="ans2${index}">False</label><br> 
       <p name="check"></p>
       <button class="btn btn-dark" onclick="show_Ans('${
         item.correct_answer
-      }', ${index})">Show answer</button>
+      }', ${index})" ondblclick="hide_Ans(${index})">Show answer</button>
       <hr/> `;
     } else {
       var arr = item.incorrect_answers;
@@ -77,14 +77,14 @@ const display = (list) => {
       }</p>
       <p >${item.type}</p></div>
       <p> Choose correct answer:</p>
-      <input type="radio" id="ans1" name="ans" value="">
-      <label for="ans1">${arr[0]}</label><br> 
-      <input type="radio" id="ans2" name="ans" value="">
-      <label for="ans2">${arr[1]}</label><br>  
-      <input type="radio" id="ans3" name="ans" value="">
-      <label for="ans3">${arr[2]}</label><br>
-      <input type="radio" id="ans4" name="ans" value="">
-      <label for="ans4">${arr[3]}</label><br>
+      <input type="radio" id="ans1${index}" name="ans${index}" value="">
+      <label for="ans1${index}">${arr[0]}</label><br> 
+      <input type="radio" id="ans2${index}" name="ans${index}" value="">
+      <label for="ans2${index}">${arr[1]}</label><br>  
+      <input type="radio" id="ans3${index}" name="ans${index}" value="">
+      <label for="ans3${index}">${arr[2]}</label><br>
+      <input type="radio" id="ans4${index}" name="ans${index}" value="">
+      <label for="ans4${index}">${arr[3]}</label><br>
       <p name="check"></p>
       <button class="btn btn-dark" onclick='show_Ans("${
         item.correct_answer
@@ -95,10 +95,9 @@ const display = (list) => {
   document.getElementById("show").innerHTML = str;
 };
 const show_Ans = (a, index) => {
+  document.getElementsByName("check")[index].style.display = "block";
   document.getElementsByName("check")[index].innerHTML = a;
 };
 const hide_Ans = (index) => {
   document.getElementsByName("check")[index].style.display = "none";
 };
-
-document.addEventListener("DOMContentLoaded", function () {});
