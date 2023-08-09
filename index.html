@@ -22,7 +22,6 @@
         position: absolute;
         background: linear-gradient(#3c97c3, #c3683c);
       }
-
       body {
         background: linear-gradient(#3c97c3, #c3683c);
       }
@@ -90,8 +89,8 @@
       </div>
     </div>
     <div
-      class="container rounded bg-black bg-opacity-25 text-light m-3 w-auto"
-      style="display: none; min-height: 60vh; width: auto"
+      class="container rounded bg-black bg-opacity-25 text-light m-3"
+      style="display: none; min-height: 95vh"
       id="quiz"
     >
       <div id="test_quiz">
@@ -131,12 +130,19 @@
             aria-labelledby="nav-test-tab"
             tabindex="0"
           >
-            <form id="check_answers">
-              <p id="test_mode"></p>
-              <button type="submit" class="btn btn-dark mb-3">
-                Submit to check answer
+            <div
+              style="position: absolute; top: 35%; left: 25%"
+              class="d-flex flex-column w-50 justify-content-center align-items-center p-4"
+            >
+              <ul>
+                <li>This is timed quiz</li>
+                <li>You can't restart the quiz</li>
+                <li>Once submitted, you will get the results</li>
+              </ul>
+              <button class="btn btn-dark" onclick="startquiz()">
+                Start Quiz
               </button>
-            </form>
+            </div>
           </div>
           <div
             class="tab-pane fade"
@@ -148,6 +154,14 @@
             <p id="practise_mode"></p>
           </div>
         </div>
+      </div>
+      <div id="try" style="display: none">
+        <form id="check_answers">
+          <p id="test_mode"></p>
+          <button type="submit" class="btn btn-dark mb-3">
+            Submit to check answer
+          </button>
+        </form>
       </div>
       <div id="score"></div>
     </div>

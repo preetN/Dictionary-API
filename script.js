@@ -153,6 +153,8 @@ const hide_Ans = (index) => {
 };
 //This function is responsible for checking answers wether correct or incorrect.
 document.getElementById("check_answers").addEventListener("submit", (e) => {
+  document.getElementById("try").style.display = "none";
+
   e.preventDefault();
   var choosen_Ans = [];
   var sel_Ans = [];
@@ -198,4 +200,8 @@ const diff_level = (level) => {
     <div class="level hard">
     </div></div>`;
   }
+};
+const startquiz = () => {
+  document.getElementById("test_quiz").style.display = "none";
+  document.getElementById("try").style.display = "block";
 };
