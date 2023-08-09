@@ -67,12 +67,61 @@
       style="display: none"
       id="quiz"
     >
-      <form id="check_answers">
-        <p id="show"></p>
-        <button tupe="submit" class="btn btn-dark">
-          Submit to check answer
-        </button>
-      </form>
+      <div id="test_quiz">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button
+              class="nav-link active"
+              id="nav-test-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-test"
+              type="button"
+              role="tab"
+              aria-controls="nav-test"
+              aria-selected="true"
+            >
+              Test Mode
+            </button>
+            <button
+              class="nav-link"
+              id="nav-practise-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-practise"
+              type="button"
+              role="tab"
+              aria-controls="nav-practise"
+              aria-selected="false"
+            >
+              Practise Mode
+            </button>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="nav-test"
+            role="tabpanel"
+            aria-labelledby="nav-test-tab"
+            tabindex="0"
+          >
+            <form id="check_answers">
+              <p id="test_mode"></p>
+              <button type="submit" class="btn btn-dark">
+                Submit to check answer
+              </button>
+            </form>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-practise"
+            role="tabpanel"
+            aria-labelledby="nav-practise-tab"
+            tabindex="0"
+          >
+            <p id="practise_mode"></p>
+          </div>
+        </div>
+      </div>
       <div id="score"></div>
     </div>
 

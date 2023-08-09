@@ -7,8 +7,8 @@ const fetchUser = async (url) => {
     const res = await fetch(url);
     const data = await res.json();
     meaningList = data.results;
-    console.log("Api here");
     display(meaningList);
+    display_practise(meaningList);
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +37,7 @@ document.getElementById("formq").addEventListener("submit", (e) => {
     fetchUser(url);
   }
 });
-//This function is responsible for displaying the quiz questions
+//This function is responsible for displaying the test mode quiz questions
 const display = (list) => {
   var str = "";
   document.getElementById("quiz").style.display = "block";
@@ -57,22 +57,9 @@ const display = (list) => {
       <label for="ans1${index}">True</label><br> 
       <input type="radio" id="ans2${index}" name="ans${index}" value="False">
       <label for="ans2${index}">False</label><br> 
-      <p name="check"></p>
-      <button class="btn btn-dark" onclick="show_Ans('${
-        item.correct_answer
-      }', ${index})" ondblclick="hide_Ans(${index})">Show answer</button>
       <hr/> `;
     } else {
-      var arr = item.incorrect_answers;
-      var arr = [...arr, item.correct_answer];
-      var len = arr.length;
-      // This loop is to shuffle the options
-      for (let i = len - 1; i > 0; i--) {
-        let ranpos = Math.floor(Math.random() * (i + 1));
-        var temp = arr[i];
-        arr[i] = arr[ranpos];
-        arr[ranpos] = temp;
-      }
+      var arr = shuffle_options(item);
       str += `<p style="font-weight:bold"><span>Question ${index + 1}: </span>${
         item.question
       }</p>
@@ -80,6 +67,66 @@ const display = (list) => {
         item.difficulty
       }</p>
       <p >${item.type}</p></div>
+      <p> Choose correct answer:</p>
+      <input type="radio" id="ans1${index}" name="ans${index}" value="${
+        arr[0]
+      }">
+      <label for="ans1${index}">${arr[0]}</label><br> 
+      <input type="radio" id="ans2${index}" name="ans${index}" value="${
+        arr[1]
+      }">
+      <label for="ans2${index}">${arr[1]}</label><br>  
+      <input type="radio" id="ans3${index}" name="ans${index}" value="${
+        arr[2]
+      }">
+      <label for="ans3${index}">${arr[2]}</label><br>
+      <input type="radio" id="ans4${index}" name="ans${index}" value="${
+        arr[3]
+      }">
+      <label for="ans4${index}">${arr[3]}</label><br>
+      <hr/>`;
+    }
+  });
+  document.getElementById("test_mode").innerHTML = str;
+};
+
+// This loop is to shuffle the options
+const shuffle_options = (option) => {
+  var ar = option.incorrect_answers;
+  var ar = [...ar, option.correct_answer];
+  var len = ar.length;
+  for (let i = len - 1; i > 0; i--) {
+    let ranpos = Math.floor(Math.random() * (i + 1));
+    var temp = ar[i];
+    ar[i] = ar[ranpos];
+    ar[ranpos] = temp;
+  }
+  return ar;
+};
+// To display practise mode quiz
+const display_practise = (list) => {
+  var str = "";
+  list.map((item, index) => {
+    if (item.type === "boolean") {
+      str += `<p style="font-weight:bold"><span>Question ${index + 1}: </span>${
+        item.question
+      }</p>
+      <p> Choose correct answer:</p>
+      <input type="radio" id="ans1${index}" name="ans${index}" value="True">
+      <label for="ans1${index}">True</label><br> 
+      <input type="radio" id="ans2${index}" name="ans${index}" value="False">
+      <label for="ans2${index}">False</label><br> 
+      <p name="check"></p>
+      <button class="btn btn-dark" onclick="show_Ans('${
+        item.correct_answer
+      }', ${index})" ondblclick="hide_Ans(${index})">Show answer</button>
+      <hr/> `;
+    } else {
+      var arr = shuffle_options(item);
+
+      str += `<p style="font-weight:bold"><span>Question ${index + 1}: </span>${
+        item.question
+      }</p>
       <p> Choose correct answer:</p>
       <input type="radio" id="ans1${index}" name="ans${index}" value="${
         arr[0]
@@ -104,7 +151,7 @@ const display = (list) => {
       <hr/>`;
     }
   });
-  document.getElementById("show").innerHTML = str;
+  document.getElementById("practise_mode").innerHTML = str;
 };
 //This function is responsible for displaying correct answer
 const show_Ans = (a, index) => {
@@ -120,7 +167,7 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
   e.preventDefault();
   var choosen_Ans = [];
   var sel_Ans = [];
-  let count = 1;
+  let count = 0;
   //taking out the selected answer from the radio type input
   for (let i = 0; i < 10; i++) {
     choosen_Ans[i] = document.getElementsByName(`ans${i}`);
@@ -134,10 +181,10 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
   //compairing the selected and correct answers if they match or not
   meaningList.map((item, index) => {
     if (item.correct_answer === sel_Ans[index]) {
-      count++;
+      ++count;
     }
   });
-  const form = document.getElementById("check_answers");
+  const form = document.getElementById("test_quiz");
   form.style.display = "none";
   var score = `<div style="height:80vh" class="d-flex flex-column justify-content-center align-items-center"><h1>Your scores are ${count}</h1>
   <h4>Correct answers: ${count}</h4>
