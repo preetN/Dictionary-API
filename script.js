@@ -41,6 +41,7 @@ document.getElementById("formq").addEventListener("submit", (e) => {
 const display = (list) => {
   var str = "";
   document.getElementById("quiz").style.display = "block";
+
   const form = document.getElementById("main-cont");
   form.style.visibility = "hidden";
   list.map((item, index) => {
@@ -153,8 +154,8 @@ const hide_Ans = (index) => {
 };
 //This function is responsible for checking answers wether correct or incorrect.
 document.getElementById("check_answers").addEventListener("submit", (e) => {
-  document.getElementById("try").style.display = "none";
-
+  document.getElementById("start_quiz").style.display = "none";
+  document.getElementById("score").style.display = "block";
   e.preventDefault();
   var choosen_Ans = [];
   var sel_Ans = [];
@@ -177,9 +178,9 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
   });
   const form = document.getElementById("test_quiz");
   form.style.display = "none";
-  var score = `<div  class="d-flex flex-column justify-content-center align-items-center"><h1>Your scores are ${count}</h1>
-  <h4>Correct answers: ${count}</h4>
-  <h4>Incorrect answers: ${10 - count}</h4>
+  var score = `<div  class="d-flex flex-column justify-content-center align-items-center p-3"><h3><i class="fa-solid fa-circle-check"></i> You have successfully completed the quiz</h3>
+  <p>On the basis of your selection correct answers are <b>${count}</b></p>
+
  <a href="./index.html"><button class="btn btn-dark">Start new quiz</button></a>
  </div>
   `;
@@ -203,5 +204,5 @@ const diff_level = (level) => {
 };
 const startquiz = () => {
   document.getElementById("test_quiz").style.display = "none";
-  document.getElementById("try").style.display = "block";
+  document.getElementById("start_quiz").style.display = "block";
 };
