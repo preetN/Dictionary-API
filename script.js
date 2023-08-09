@@ -47,11 +47,9 @@ const display = (list) => {
     if (item.type === "boolean") {
       str += `<p style="font-weight:bold"><span>Question ${index + 1}: </span>${
         item.question
-      }</p>
-      <div style="font-size:10px" class="d-flex justify-content-evenly" ><p>${
-        item.difficulty
-      }</p>
-      <p >${item.type}</p></div>
+      }</p>`;
+      str += diff_level(item.difficulty);
+      str += `
       <p> Choose correct answer:</p>
       <input type="radio" id="ans1${index}" name="ans${index}" value="True">
       <label for="ans1${index}">True</label><br> 
@@ -62,27 +60,18 @@ const display = (list) => {
       var arr = shuffle_options(item);
       str += `<p style="font-weight:bold"><span>Question ${index + 1}: </span>${
         item.question
-      }</p>
-      <div style="font-size:10px" class="d-flex justify-content-evenly" ><p>${
-        item.difficulty
-      }</p>
-      <p >${item.type}</p></div>
+      }</p>`;
+
+      str += diff_level(item.difficulty);
+      str += `
       <p> Choose correct answer:</p>
-      <input type="radio" id="ans1${index}" name="ans${index}" value="${
-        arr[0]
-      }">
+      <input type="radio" id="ans1${index}" name="ans${index}" value="${arr[0]}">
       <label for="ans1${index}">${arr[0]}</label><br> 
-      <input type="radio" id="ans2${index}" name="ans${index}" value="${
-        arr[1]
-      }">
+      <input type="radio" id="ans2${index}" name="ans${index}" value="${arr[1]}">
       <label for="ans2${index}">${arr[1]}</label><br>  
-      <input type="radio" id="ans3${index}" name="ans${index}" value="${
-        arr[2]
-      }">
+      <input type="radio" id="ans3${index}" name="ans${index}" value="${arr[2]}">
       <label for="ans3${index}">${arr[2]}</label><br>
-      <input type="radio" id="ans4${index}" name="ans${index}" value="${
-        arr[3]
-      }">
+      <input type="radio" id="ans4${index}" name="ans${index}" value="${arr[3]}">
       <label for="ans4${index}">${arr[3]}</label><br>
       <hr/>`;
     }
@@ -186,7 +175,7 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
   });
   const form = document.getElementById("test_quiz");
   form.style.display = "none";
-  var score = `<div style="height:80vh" class="d-flex flex-column justify-content-center align-items-center"><h1>Your scores are ${count}</h1>
+  var score = `<div  class="d-flex flex-column justify-content-center align-items-center"><h1>Your scores are ${count}</h1>
   <h4>Correct answers: ${count}</h4>
   <h4>Incorrect answers: ${10 - count}</h4>
  <a href="./index.html"><button class="btn btn-dark">Start new quiz</button></a>
@@ -194,3 +183,19 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
   `;
   document.getElementById("score").innerHTML = score;
 });
+//Show easy medium or hard level on bar.
+const diff_level = (level) => {
+  if (level === "easy") {
+    return `<div class="diff">
+  <div class="level">
+  </div></div>`;
+  } else if (level === "medium") {
+    return `<div class="diff">
+  <div class="level medium">
+  </div></div>`;
+  } else if (level === "hard") {
+    return `<div class="diff">
+    <div class="level hard">
+    </div></div>`;
+  }
+};
