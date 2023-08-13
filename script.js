@@ -214,7 +214,7 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
 const startquiz = () => {
   quiz_timer();
   window.onbeforeunload = function () {
-    return "Are you sure you exit";
+    return;
   };
   document.getElementById("test_quiz").style.display = "none";
   document.getElementById("start_quiz").style.display = "block";
