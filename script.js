@@ -1,6 +1,8 @@
 const apiEP = "https://opentdb.com/api.php?amount=10";
 let meaningList = [];
 let url = "";
+//Timer seconds
+var count = 300;
 // to fetch data from api
 const fetchUser = async (url) => {
   try {
@@ -211,12 +213,14 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
 
 const startquiz = () => {
   quiz_timer();
+  window.onbeforeunload = function () {
+    return "Are you sure you exit";
+  };
   document.getElementById("test_quiz").style.display = "none";
   document.getElementById("start_quiz").style.display = "block";
 };
 
 const quiz_timer = () => {
-  var count = 300;
   var interval = setInterval(function () {
     let time = count;
     let time_sec = count;
