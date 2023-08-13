@@ -178,8 +178,7 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
   let remarks = "";
   if (count_score >= 8) {
     remarks = "Excellent";
-  }
-  if (count_score >= 6) {
+  } else if (count_score >= 6) {
     remarks = "Good job";
   } else if (count_score >= 4) {
     remarks = "Try hard";
@@ -217,7 +216,7 @@ const startquiz = () => {
 };
 
 const quiz_timer = () => {
-  var count = 600;
+  var count = 300;
   var interval = setInterval(function () {
     let time = count;
     let time_sec = count;
