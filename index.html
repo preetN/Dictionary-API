@@ -44,6 +44,11 @@
         justify-content: center;
         align-items: center;
       }
+      @media (max-width: 700px) {
+        .try {
+          width: 100% !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -144,10 +149,7 @@
               tabindex="0"
             >
               <div class="d-flex justify-content-center" style="height: 73vh">
-                <div
-                  style="width: 25%"
-                  class="d-flex flex-column justify-content-center"
-                >
+                <div class="d-flex flex-column justify-content-center w-25 try">
                   <ul>
                     <li>This is timed quiz</li>
                     <li>You will get 10 minutes to finish it.</li>
