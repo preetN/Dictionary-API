@@ -2,6 +2,7 @@ const apiEP = "https://opentdb.com/api.php?amount=10";
 let meaningList = [];
 let url = "";
 let intervalId;
+var r_w = [];
 //Timer seconds
 var count = 100;
 // to fetch data from api
@@ -141,19 +142,21 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
       }
     }
   }
-  var right_wrong = "";
-  var r_w = [{}];
+
   //compairing the selected and correct answers if they match or not
   meaningList.map((item, index) => {
+    var obj = {
+      question: item.question,
+      correct: item.correct_answer,
+      sel_ans: sel_Ans[index],
+      other: item.incorrect_answers,
+    };
     if (item.correct_answer === sel_Ans[index]) {
       ++count_score;
-      right_wrong += disp_questions(item, index);
-      right_wrong += `<p style="color:green">${item.correct_answer}</p> <hr>`;
-    } else {
-      right_wrong += disp_questions(item, index);
-      right_wrong += `<p style="color:green">${item.correct_answer}</p> <hr>`;
     }
+    r_w.push(obj);
   });
+
   let remarks = "";
   if (count_score >= 8) {
     remarks = "Excellent";
@@ -185,8 +188,8 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
           <a href="./index.html"><button class="btn btn-dark">Start new quiz</button></a>
           <br>
 
-          <button class="btn btn-dark" style="font-size:10px"  >Click here to check your answers</button>
-<p id="correct" >${right_wrong}</p>
+          <button class="btn btn-dark" style="font-size:10px" id="correct_btn" onclick="display_right_wrong(r_w)" ondblclick="hide_right_wrong()">Click here to check your answers</button>
+          <p id="dispdisp" style="display:none"></p>
         </div>
   `;
   document.getElementById("score").innerHTML = score;
@@ -238,4 +241,31 @@ const quiz_timer = () => {
       document.getElementById("submit_btn").click();
     }
   }, 1000);
+};
+const display_right_wrong = (r_w) => {
+  document.getElementById("dispdisp").style.display = "block";
+  document.getElementById("correct_btn").innerHTML = "Close Answers";
+  var disp = "";
+  r_w.map((item, index) => {
+    disp += `<hr><div>Question ${index + 1}: ${item.question}</div><br>`;
+    if (item.correct === item.sel_ans) {
+      disp += `<label style="background-color:green"><input type="radio" style="accent-color:green" name="ans${index}" checked /> ${item.correct}</label><br>`;
+    } else {
+      disp += `<label><input type="radio"  name="ans${index}" disabled /> ${item.correct}</label><br>`;
+    }
+    item.other.map((a) => {
+      if (a === item.sel_ans) {
+        disp += `<label style="background-color:red"><input type="radio"  name="ans${index}" checked/> ${a}</label><br>`;
+      } else {
+        disp += `<label><input type="radio"  name="ans${index}" disabled/> ${a}</label><br>`;
+      }
+    });
+    disp += `<p>Correct answer: ${item.correct}</p>`;
+  });
+  document.getElementById("dispdisp").innerHTML = disp;
+};
+const hide_right_wrong = () => {
+  document.getElementById("dispdisp").style.display = "none";
+  document.getElementById("correct_btn").innerHTML =
+    "Click here to check answers";
 };
