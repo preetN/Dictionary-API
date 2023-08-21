@@ -1,8 +1,9 @@
 const apiEP = "https://opentdb.com/api.php?amount=10";
 let meaningList = [];
 let url = "";
+let intervalId;
 //Timer seconds
-var count = 300;
+var count = 100;
 // to fetch data from api
 const fetchUser = async (url) => {
   try {
@@ -42,45 +43,39 @@ document.getElementById("formq").addEventListener("submit", (e) => {
   }
   fetchUser(url);
 });
-//This function is responsible for displaying the test mode quiz questions
-const display = (list) => {
+//To display questions
+const disp_questions = (item, index) => {
   var str = "";
-  document.getElementById("quiz").style.display = "block";
-  const form = document.getElementById("main-cont");
-  form.style.visibility = "hidden";
-  list.map((item, index) => {
-    if (item.type === "boolean") {
-      str += `<div  style="font-weight:bold"><span>Question ${
-        index + 1
-      }: </span>${item.question}</div>
-      <p class="mt-2"> Choose correct answer:</p>
-      <label > <input type="radio"  name="ans${index}" value="True">
-      True</label><br> 
-      <label > <input type="radio"  name="ans${index}" value="False">
-      False</label><br> 
-      <hr/> `;
-    } else {
-      var arr = shuffle_options(item);
-      str += `<div style="font-weight:bold"><span>Question ${
-        index + 1
-      }: </span>${item.question}</div>
-      <p class="mt-2"> Choose correct answer:</p>
-      <label > <input type="radio"  name="ans${index}" value="${arr[0]}">
-    ${arr[0]}</label><br> 
-      
-      <label > <input type="radio"  name="ans${index}" value="${arr[1]}"> ${
-        arr[1]
-      }</label><br>  
-      <label > <input type="radio" name="ans${index}" value="${arr[2]}">
-    ${arr[2]}</label><br>
-      <label > <input type="radio"  name="ans${index}" value="${arr[3]}">
-      ${arr[3]}</label><br>
-      <hr/>`;
-    }
-  });
-  document.getElementById("test_mode").innerHTML = str;
+  if (item.type === "boolean") {
+    str += `<div  style="font-weight:bold"><span>Question ${
+      index + 1
+    }: </span>${item.question}</div>
+  <p class="mt-2"> Choose correct answer:</p>
+  <label > <input type="radio"  name="ans${index}" value="True">
+  True</label><br> 
+  <label > <input type="radio"  name="ans${index}" value="False">
+  False</label><br> 
+  <hr/> `;
+  } else {
+    var arr = shuffle_options(item);
+    str += `<div style="font-weight:bold"><span>Question ${index + 1}: </span>${
+      item.question
+    }</div>
+  <p class="mt-2"> Choose correct answer:</p>
+  <label > <input type="radio"  name="ans${index}" value="${arr[0]}">
+${arr[0]}</label><br> 
+  
+  <label > <input type="radio"  name="ans${index}" value="${arr[1]}"> ${
+      arr[1]
+    }</label><br>  
+  <label > <input type="radio" name="ans${index}" value="${arr[2]}">
+${arr[2]}</label><br>
+  <label > <input type="radio"  name="ans${index}" value="${arr[3]}">
+  ${arr[3]}</label><br>
+  <hr/>`;
+  }
+  return str;
 };
-
 // This loop is to shuffle the options
 const shuffle_options = (option) => {
   var ar = option.incorrect_answers;
@@ -94,53 +89,25 @@ const shuffle_options = (option) => {
   }
   return ar;
 };
+//This function is responsible for displaying the test mode quiz questions
+const display = (list) => {
+  var str = "";
+  document.getElementById("quiz").style.display = "block";
+  const form = document.getElementById("main-cont");
+  form.style.visibility = "hidden";
+  list.map((item, index) => {
+    str += disp_questions(item, index);
+  });
+  document.getElementById("test_mode").innerHTML = str;
+};
+
 // To display practise mode quiz
 const display_practise = (list) => {
   var str = "";
   list.map((item, index) => {
-    if (item.type === "boolean") {
-      str += `<p style="font-weight:bold"><span>Question ${index + 1}: </span>${
-        item.question
-      }</p>
-      <p> Choose correct answer:</p>
-      <input type="radio" id="ans1${index}" name="ans${index}" value="True">
-      <label for="ans1${index}">True</label><br> 
-      <input type="radio" id="ans2${index}" name="ans${index}" value="False">
-      <label for="ans2${index}">False</label><br> 
-      <p name="check"></p>
-      <button class="btn btn-dark" onclick="show_Ans('${
-        item.correct_answer
-      }', ${index})" ondblclick="hide_Ans(${index})">Show answer</button>
-      <hr/> `;
-    } else {
-      var arr = shuffle_options(item);
-
-      str += `<p style="font-weight:bold"><span>Question ${index + 1}: </span>${
-        item.question
-      }</p>
-      <p> Choose correct answer:</p>
-      <input type="radio" id="ans1${index}" name="ans${index}" value="${
-        arr[0]
-      }">
-      <label for="ans1${index}">${arr[0]}</label><br> 
-      <input type="radio" id="ans2${index}" name="ans${index}" value="${
-        arr[1]
-      }">
-      <label for="ans2${index}">${arr[1]}</label><br>  
-      <input type="radio" id="ans3${index}" name="ans${index}" value="${
-        arr[2]
-      }">
-      <label for="ans3${index}">${arr[2]}</label><br>
-      <input type="radio" id="ans4${index}" name="ans${index}" value="${
-        arr[3]
-      }">
-      <label for="ans4${index}">${arr[3]}</label><br>
-      <p name="check"></p>
-      <button class="btn btn-dark" onclick='show_Ans("${
-        item.correct_answer
-      }", ${index})' ondblclick="hide_Ans(${index})">Show answer</button>
-      <hr/>`;
-    }
+    str += disp_questions(item, index);
+    str += ` <p name="check"></p><button class="btn btn-dark" id="show_btn${index}" onclick='show_Ans("${item.correct_answer}", ${index})' ondblclick="hide_Ans(${index})">Show answer</button>
+    <hr/>`;
   });
   document.getElementById("practise_mode").innerHTML = str;
 };
@@ -148,13 +115,16 @@ const display_practise = (list) => {
 const show_Ans = (a, index) => {
   document.getElementsByName("check")[index].style.display = "block";
   document.getElementsByName("check")[index].innerHTML = a;
+  document.getElementById(`show_btn${index}`).innerHTML = "Hide answer";
 };
 //This function is responsible for hiding the correct answer
 const hide_Ans = (index) => {
   document.getElementsByName("check")[index].style.display = "none";
+  document.getElementById(`show_btn${index}`).innerHTML = "Show answer";
 };
 //This function is responsible for checking answers wether correct or incorrect.
 document.getElementById("check_answers").addEventListener("submit", (e) => {
+  clearInterval(intervalId);
   document.getElementById("start_quiz").style.display = "none";
   document.getElementById("score").classList.add("score_show");
   e.preventDefault();
@@ -171,10 +141,17 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
       }
     }
   }
+  var right_wrong = "";
+  var r_w = [{}];
   //compairing the selected and correct answers if they match or not
   meaningList.map((item, index) => {
     if (item.correct_answer === sel_Ans[index]) {
       ++count_score;
+      right_wrong += disp_questions(item, index);
+      right_wrong += `<p style="color:green">${item.correct_answer}</p> <hr>`;
+    } else {
+      right_wrong += disp_questions(item, index);
+      right_wrong += `<p style="color:green">${item.correct_answer}</p> <hr>`;
     }
   });
   let remarks = "";
@@ -206,6 +183,10 @@ document.getElementById("check_answers").addEventListener("submit", (e) => {
             </p>
           </div>
           <a href="./index.html"><button class="btn btn-dark">Start new quiz</button></a>
+          <br>
+
+          <button class="btn btn-dark" style="font-size:10px"  >Click here to check your answers</button>
+<p id="correct" >${right_wrong}</p>
         </div>
   `;
   document.getElementById("score").innerHTML = score;
@@ -221,7 +202,7 @@ const startquiz = () => {
 };
 
 const quiz_timer = () => {
-  var interval = setInterval(function () {
+  intervalId = setInterval(function () {
     let time = count;
     let time_sec = count;
     if (time >= 60) {
@@ -251,7 +232,8 @@ const quiz_timer = () => {
 
     count--;
     if (count === 0) {
-      clearInterval(interval);
+      alert("times up");
+      clearInterval(intervalId);
       document.getElementById("count").innerHTML = "Times up";
       document.getElementById("submit_btn").click();
     }
