@@ -255,7 +255,7 @@ const display_right_wrong = (r_w) => {
     }
     item.other.map((a) => {
       if (a === item.sel_ans) {
-        disp += `<label style="background-color:red"><input type="radio"  name="ans${index}" checked/> ${a}</label><br>`;
+        disp += `<label style="background-color:red"><input type="radio" style="accent-color:red" name="ans${index}" checked/> ${a}</label><br>`;
       } else {
         disp += `<label><input type="radio"  name="ans${index}" disabled/> ${a}</label><br>`;
       }
